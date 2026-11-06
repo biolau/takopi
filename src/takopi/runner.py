@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import subprocess
@@ -25,6 +26,15 @@ from .model import (
 from .utils.paths import get_run_base_dir
 from .utils.streams import drain_stderr, iter_bytes_lines
 from .utils.subprocess import manage_subprocess
+
+
+def wake_hash(text: str) -> str:
+    """sha256 of the wake text, logged at ``handle.incoming`` and
+    ``subprocess.spawn``. Equal hashes across the pair, while the agent still
+    sees the prompt twice, localise the duplication downstream of the carrier
+    (biolau/botroom#45).
+    """
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
 
 class ResumeTokenMixin:
@@ -632,6 +642,7 @@ class JsonlSubprocessRunner(BaseRunner):
                 cmd=cmd[0] if cmd else None,
                 args=cmd[1:],
                 pid=proc.pid,
+                prompt_hash=wake_hash(prompt),
             )
 
             await self._send_payload(proc, payload, logger=logger, resume=resume)

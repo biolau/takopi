@@ -11,7 +11,7 @@ from .logging import bind_run_context, get_logger
 from .model import CompletedEvent, ResumeToken, StartedEvent, TakopiEvent
 from .presenter import Presenter
 from .markdown import render_event_cli
-from .runner import Runner, RunnerTurnControl
+from .runner import Runner, RunnerTurnControl, wake_hash
 from .progress import ProgressTracker
 from .transport import (
     ChannelId,
@@ -418,6 +418,7 @@ async def handle_message(
         user_msg_id=incoming.message_id,
         resume=resume_token.value if resume_token else None,
         text=incoming.text,
+        text_hash=wake_hash(incoming.text),
     )
     started_at = clock()
     is_resume_line = runner.is_resume_line
