@@ -306,7 +306,6 @@ def test_build_args_new_session() -> None:
         "json",
         "--model",
         "claude-sonnet",
-        "--",
         "hello world",
     ]
 
@@ -322,7 +321,6 @@ def test_build_args_with_resume() -> None:
         "json",
         "--session",
         "ses_abc123",
-        "--",
         "continue",
     ]
 
@@ -331,14 +329,21 @@ def test_build_args_normalizes_numeric_prompt() -> None:
     runner = OpenCodeRunner(opencode_cmd="opencode")
     args = runner.build_args("2", None, state=OpenCodeStreamState())
 
-    assert args[-2:] == ["--", "2."]
+    assert args[-2:] == ["json", "2."]
 
 
 def test_build_args_preserves_non_numeric_prompt() -> None:
     runner = OpenCodeRunner(opencode_cmd="opencode")
     args = runner.build_args("2a", None, state=OpenCodeStreamState())
 
-    assert args[-2:] == ["--", "2a"]
+    assert args[-2:] == ["json", "2a"]
+
+
+def test_build_args_dash_prompt_keeps_separator() -> None:
+    runner = OpenCodeRunner(opencode_cmd="opencode")
+    args = runner.build_args("--help", None, state=OpenCodeStreamState())
+
+    assert args[-2:] == ["--", "--help"]
 
 
 def test_build_runner_default_cmd(tmp_path: Path) -> None:
