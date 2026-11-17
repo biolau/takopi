@@ -1,5 +1,18 @@
 # changelog
 
+## v0.24.0 (2026-11-17)
+
+### fixes
+
+- wake on decoded Telegram mention entities instead of whole-text substrings, so naming a bot in quotes or code no longer triggers it [#259](https://github.com/banteg/takopi/issues/259)
+- run the (chat_id, message_id) dedup on every path, closing double dispatch when an update is redelivered under a fresh update_id [#260](https://github.com/banteg/takopi/issues/260)
+- pass the `--` separator to the OpenCode runner only for option-like prompts; the unconditional separator stored the prompt twice on Windows [#263](https://github.com/banteg/takopi/issues/263)
+
+### changes
+
+- read the OpenCode executable from the engine config `opencode.cmd` instead of the hard-coded `opencode` [#262](https://github.com/banteg/takopi/issues/262)
+- log sha256 hashes of the wake text at `handle.incoming` and `subprocess.spawn` to trace doubled agent intake (biolau/botroom#45)
+
 ## v0.23.4 (2026-05-25)
 
 ### changes
