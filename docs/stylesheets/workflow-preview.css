@@ -69,20 +69,39 @@
   border-bottom: 1px solid #e5e5e5;
 }
 
+/* Topic chips are now real <button>s (see tutorials/install.md) so they are
+   keyboard-reachable. Reset the default button chrome so they still read as
+   plain tabs, and give them a visible focus ring. */
+.workflow-preview .topic-bar .topic,
+.workflow-preview .topic-bar .topic-active {
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  border-radius: 2px;
+  font: inherit;
+  color: inherit;
+  padding: 0 0 6px;
+  cursor: pointer;
+}
+
 .workflow-preview .topic-bar .topic {
   color: #999;
-  padding-bottom: 6px;
-  cursor: pointer;
 }
 
 .workflow-preview .topic-bar .topic:hover {
   color: #666;
 }
 
+.workflow-preview .topic-bar .topic:focus-visible,
+.workflow-preview .topic-bar .topic-active:focus-visible {
+  outline: 2px solid #E87A9F;
+  outline-offset: 2px;
+}
+
 .workflow-preview .topic-bar .topic-active {
   color: #E87A9F;
   font-weight: 500;
-  padding-bottom: 6px;
   border-bottom: 2px solid #E87A9F;
   margin-bottom: -9px;
 }

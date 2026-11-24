@@ -225,3 +225,16 @@
   }
 }
 
+/* Respect users who ask the OS to reduce motion: stop the looping
+   cursor blink and typing-dots bounce. The one-shot msg/tool entrance
+   fades are brief and left in place. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-terminal .cursor {
+    animation: none;
+  }
+
+  .hero-chat .typing-indicator span {
+    animation: none;
+  }
+}
+
